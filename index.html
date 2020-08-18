@@ -4,11 +4,19 @@
     <meta name="viewport" content="initial-scale=1" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="mobile-web-app-capable" content="yes" />
-    <link rel="manifest" href="/manifest.json" />
+    <link rel="manifest" href="manifest.json" />
     <style type="text/css">
+      @font-face {
+        font-family: "NEXON Lv1 Gothic OTF Bold";
+        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF Bold.woff")
+          format("woff");
+        font-weight: normal;
+        font-style: normal;
+      }
       html,
       body,
       .Clock {
+        font-family: "NEXON Lv1 Gothic OTF Bold";
         margin: 0;
         padding: 0;
         width: 100vw;
@@ -17,6 +25,14 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+      }
+      .Day {
+        background-color: white;
+        color: black;
+      }
+      .Night {
+        background-color: #061f2f;
+        color: white;
       }
       #Time {
         font-size: 24vw;
@@ -40,6 +56,7 @@
   <script type="text/javascript">
     // <![CDATA[
     const WeekNames = "일월화수목금토일";
+    const $Body = document.body;
     const $Time = document.getElementById("Time");
     const $Date = document.getElementById("Date");
     const state = {
@@ -49,8 +66,7 @@
     const generator = {
       time: (now) => dateFns.format(now, "HH:mm"),
       date: (now) =>
-        dateFns.format(now, `MM월 DD일`) +
-        `(${WeekNames.charAt(now.getDay())})`,
+        dateFns.format(now, `M월 D일`) + ` (${WeekNames.charAt(now.getDay())})`,
     };
 
     function updateComponent(now, key, $element) {
@@ -65,7 +81,19 @@
       const now = new Date();
       updateComponent(now, "time", $Time);
       updateComponent(now, "date", $Date);
+      if (now.getHours() >= 7 && now.getHours() < 19) {
+        if (!$Body.classList.contains("Day")) {
+          $Body.classList.add("Day");
+          $Body.classList.remove("Night");
+        }
+      } else {
+        if (!$Body.classList.contains("Night")) {
+          $Body.classList.add("Night");
+          $Body.classList.remove("Day");
+        }
+      }
     }
+
     updateNow();
     setInterval(updateNow, 1000);
     // ]]>
