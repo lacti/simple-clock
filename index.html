@@ -1,0 +1,73 @@
+<html>
+  <head>
+    <title>Clock</title>
+    <meta name="viewport" content="initial-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <link rel="manifest" href="/manifest.json" />
+    <style type="text/css">
+      html,
+      body,
+      .Clock {
+        margin: 0;
+        padding: 0;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      #Time {
+        font-size: 24vw;
+        margin-bottom: 4vh;
+      }
+      #Date {
+        font-size: 6vw;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="Clock">
+      <div id="Time"></div>
+      <div id="Date"></div>
+    </div>
+  </body>
+  <script
+    type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.30.1/date_fns.min.js"
+  ></script>
+  <script type="text/javascript">
+    // <![CDATA[
+    const WeekNames = "일월화수목금토일";
+    const $Time = document.getElementById("Time");
+    const $Date = document.getElementById("Date");
+    const state = {
+      time: "",
+      date: "",
+    };
+    const generator = {
+      time: (now) => dateFns.format(now, "HH:mm"),
+      date: (now) =>
+        dateFns.format(now, `MM월 DD일`) +
+        `(${WeekNames.charAt(now.getDay())})`,
+    };
+
+    function updateComponent(now, key, $element) {
+      const next = generator[key](now);
+      if (next !== state[key]) {
+        state[key] = next;
+        $element.innerText = next;
+      }
+    }
+
+    function updateNow() {
+      const now = new Date();
+      updateComponent(now, "time", $Time);
+      updateComponent(now, "date", $Date);
+    }
+    updateNow();
+    setInterval(updateNow, 1000);
+    // ]]>
+  </script>
+</html>
