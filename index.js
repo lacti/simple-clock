@@ -89,10 +89,42 @@ function startDday(paramKey, elementId) {
   setInterval(updateDdays, 1000);
 }
 
+function toggleFullScreen() {
+  const doc = window.document;
+  const docEl = doc.documentElement;
+  const requestFullScreen =
+    docEl.requestFullscreen ||
+    docEl.mozRequestFullScreen ||
+    docEl.webkitRequestFullScreen ||
+    docEl.msRequestFullscreen;
+  const cancelFullScreen =
+    doc.exitFullscreen ||
+    doc.mozCancelFullScreen ||
+    doc.webkitExitFullscreen ||
+    doc.msExitFullscreen;
+  if (
+    !doc.fullscreenElement &&
+    !doc.mozFullScreenElement &&
+    !doc.webkitFullscreenElement &&
+    !doc.msFullscreenElement
+  ) {
+    requestFullScreen.call(docEl);
+  } else {
+    cancelFullScreen.call(doc);
+  }
+}
+
+function setupFullScreen() {
+  // const $Clock = document.getElementsByClassName("Clock")[0];
+  document.ontouchend = toggleFullScreen;
+  document.onmouseup = toggleFullScreen;
+}
+
 function main() {
   startClock();
   startDday("dday", "Dday1");
   startDday("dday2", "Dday2");
+  setupFullScreen();
 }
 
 main();
