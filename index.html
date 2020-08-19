@@ -35,11 +35,23 @@
         color: white;
       }
       #Time {
-        font-size: 24vw;
+        font-size: 18vw;
         margin-bottom: 4vh;
       }
       #Date {
-        font-size: 6vw;
+        font-size: 4vw;
+      }
+      #Dday1 {
+        position: absolute;
+        right: 2vw;
+        top: 2vh;
+        font-size: 4vw;
+      }
+      #Dday2 {
+        position: absolute;
+        left: 2vw;
+        top: 2vh;
+        font-size: 4vw;
       }
     </style>
   </head>
@@ -48,54 +60,12 @@
       <div id="Time"></div>
       <div id="Date"></div>
     </div>
+    <div id="Dday1"></div>
+    <div id="Dday2"></div>
   </body>
   <script
     type="text/javascript"
     src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.30.1/date_fns.min.js"
   ></script>
-  <script type="text/javascript">
-    // <![CDATA[
-    const WeekNames = "일월화수목금토일";
-    const $Body = document.body;
-    const $Time = document.getElementById("Time");
-    const $Date = document.getElementById("Date");
-    const state = {
-      time: "",
-      date: "",
-    };
-    const generator = {
-      time: (now) => dateFns.format(now, "HH:mm"),
-      date: (now) =>
-        dateFns.format(now, `M월 D일`) + ` (${WeekNames.charAt(now.getDay())})`,
-    };
-
-    function updateComponent(now, key, $element) {
-      const next = generator[key](now);
-      if (next !== state[key]) {
-        state[key] = next;
-        $element.innerText = next;
-      }
-    }
-
-    function updateNow() {
-      const now = new Date();
-      updateComponent(now, "time", $Time);
-      updateComponent(now, "date", $Date);
-      if (now.getHours() >= 7 && now.getHours() < 19) {
-        if (!$Body.classList.contains("Day")) {
-          $Body.classList.add("Day");
-          $Body.classList.remove("Night");
-        }
-      } else {
-        if (!$Body.classList.contains("Night")) {
-          $Body.classList.add("Night");
-          $Body.classList.remove("Day");
-        }
-      }
-    }
-
-    updateNow();
-    setInterval(updateNow, 1000);
-    // ]]>
-  </script>
+  <script type="text/javascript" src="index.js"></script>
 </html>
