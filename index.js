@@ -28,12 +28,12 @@ function startClock() {
     const now = new Date();
     updateComponent(now, "time", $hhMM);
     updateComponent(now, "date", $Date);
-    // if (now.getMinutes() >= 58) {
-    updateComponent(now, "seconds", $ss);
-    $ss.style.display = "";
-    // } else {
-    // $ss.style.display = "none";
-    // }
+    if (now.getMinutes() >= 59) {
+      updateComponent(now, "seconds", $ss);
+      $ss.style.display = "";
+    } else {
+      $ss.style.display = "none";
+    }
     if (now.getHours() >= 7 && now.getHours() < 19) {
       if (!$Body.classList.contains("Day")) {
         $Body.classList.add("Day");
