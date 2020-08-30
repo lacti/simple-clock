@@ -30,6 +30,9 @@ body,
   font-size: 20vw;
   margin-bottom: 4vh;
 }
+#ss {
+  font-size: 12vw;
+}
 #Date {
   font-size: 6vw;
 }

@@ -1,14 +1,17 @@
 function startClock() {
   const WeekNames = "일월화수목금토일";
   const $Body = document.body;
-  const $Time = document.getElementById("Time");
+  const $hhMM = document.getElementById("hhMM");
+  const $ss = document.getElementById("ss");
   const $Date = document.getElementById("Date");
   const state = {
     time: "",
     date: "",
+    seconds: "",
   };
   const generator = {
     time: (now) => dateFns.format(now, "HH:mm"),
+    seconds: (now) => dateFns.format(now, ".ss"),
     date: (now) =>
       dateFns.format(now, `M월 D일`) + ` (${WeekNames.charAt(now.getDay())})`,
   };
@@ -23,8 +26,14 @@ function startClock() {
 
   function updateNow() {
     const now = new Date();
-    updateComponent(now, "time", $Time);
+    updateComponent(now, "time", $hhMM);
     updateComponent(now, "date", $Date);
+    // if (now.getMinutes() >= 58) {
+    updateComponent(now, "seconds", $ss);
+    $ss.style.display = "";
+    // } else {
+    // $ss.style.display = "none";
+    // }
     if (now.getHours() >= 7 && now.getHours() < 19) {
       if (!$Body.classList.contains("Day")) {
         $Body.classList.add("Day");
